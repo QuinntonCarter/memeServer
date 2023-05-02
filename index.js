@@ -9,19 +9,18 @@ const { PORT, MONGODB_URI, CLIENT_URL, CLIENT_URL_WEB } = process.env;
 
 app.use(express.json());
 // permits access to db to client urls
-app.use(cors({ origin: CLIENT_URL, CLIENT_URL_WEB }));
+// app.use(cors({ origin: CLIENT_URL, CLIENT_URL_WEB }));
 app.use(morgan("dev"));
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(MONGODB_URI, {
+    await mongoose.connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
       useFindAndModify: false,
     });
-    return conn;
-    // console.log(`MongoDB Connected: ${conn.connection.host}`);
+    console.log(`MongoDB Connected`);
   } catch (error) {
     console.log(error);
     process.exit(1);
