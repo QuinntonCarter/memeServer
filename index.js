@@ -5,12 +5,17 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-const { PORT, MONGODB_URI, CLIENT_URL, CLIENT_URL_WEB } = process.env;
+const { PORT, MONGODB_URI, CLIENT_URL, CLIENT_URL_WEB, ENVIRONMENT } =
+  process.env;
 
 app.use(express.json());
 // permits access to db to client urls
-// app.use(cors({ origin: CLIENT_URL, CLIENT_URL_WEB }));
-app.use(cors());
+//
+if (ENVIRONMENT === "DEV") {
+  app.use(cors());
+} else {
+  app.use(cors({ origin: CLIENT_URL, CLIENT_URL_WEB }));
+}
 app.use(morgan("dev"));
 
 const connectDB = async () => {
