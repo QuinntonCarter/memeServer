@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const mongoose = require("mongoose");
+const { connect } = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -14,14 +14,15 @@ app.use(morgan("dev"));
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(MONGODB_URI, {
+    const conn = await connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
       useFindAndModify: false,
     });
+    console.log("connected to mongo db", conn.connection.host);
   } catch (error) {
-    console.log(error);
+    console.error("error connecting to mongodb", error);
     process.exit(1);
   }
 };
