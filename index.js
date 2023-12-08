@@ -7,7 +7,6 @@ require("dotenv").config();
 const { PORT, MONGODB_URI, CLIENT_URL, CLIENT_URL_WEB } = process.env;
 
 app.use(express.json());
-// permits access to db to client urls
 app.use(cors());
 
 const connectDB = async () => {
